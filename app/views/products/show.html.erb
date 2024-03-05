@@ -1,0 +1,11 @@
+<h1><%= @product.name %></h1>
+
+<p><strong>Price:</strong> <%= number_to_currency(@product.price) %></p>
+
+<% if @product.image.attached? %>
+  <%= image_tag @product.image, width: '200' %>
+<% else %>
+  No Image
+<% end %>
+
+ <%= link_to 'Back', products_path %>
