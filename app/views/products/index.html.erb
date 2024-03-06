@@ -1,31 +1,50 @@
-<h1>Our Products</h1>
-
-<div class="grid grid-cols-3 gap-4">
+<!-- Buy Now Header -->
+ 
+<!-- Slideshow Section -->
+<div class="overflow-hidden">
+  <!-- Loop through each product and render the images -->
   <% @products.each do |product| %>
-    <div class="border p-4 rounded-lg">
-      <%= link_to product_path(product) do %>
-        <div class="p-1 flex flex-wrap items-center justify-center">
-          <div class="flex-shrink-0 m-6 relative overflow-hidden bg-orange-500 rounded-lg max-w-xs shadow-lg group">
-            <svg class="absolute bottom-0 left-0 mb-8 scale-150 group-hover:scale-[1.65] transition-transform" viewBox="0 0 375 283" fill="none"
-                style="opacity: 0.1;">
-                <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="white" />
-                <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="white" />
-            </svg>
-            <div class="relative pt-10 px-10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <div class="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3"
-                    style="background: radial-gradient(black, transparent 60%); transform: rotate3d(0, 0, 1, 20deg) scale3d(1, 0.6, 1); opacity: 0.2;">
-                </div>
-                <%= image_tag product.images.variant(resize: "300x300") if product.images.attached? %>
-            </div>
-            <div class="relative text-white px-6 pb-6 mt-6">
-                 <div class="flex justify-between">
-                    <span class="block font-semibold text-xl"><%= product.name %></span>
-                    <span class="block bg-white rounded-full text-orange-500 text-xs font-bold px-3 py-2 leading-none flex items-center"><%= number_to_currency(product.price) %></span>
-                </div>
-            </div>
-          </div>
-        </div>
+    <div class="relative w-72 mx-auto mb-10">
+      <% if product.images.attached? %>
+        <% product.images.each_with_index do |image, index| %>
+          <img src="<%= rails_blob_url(image) %>" alt="Product" class="absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 <%= index == 0 ? 'opacity-100' : 'opacity-0' %>" />
+        <% end %>
+      <% else %>
+        <p class="text-gray-500 text-center py-3">No image available</p>
       <% end %>
     </div>
   <% end %>
 </div>
+
+<!-- Grid Section for Product Cards -->
+<section id="Projects" class="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
+  <!-- Loop through each product and render the card -->
+  <% @products.each do |product| %>
+    <div class="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
+      <a href="#">
+        <!-- Product Image -->
+        <div class="h-48 overflow-hidden">
+          <% if product.images.attached? %>
+            <% product.images.each_with_index do |image, index| %>
+              <img src="<%= rails_blob_url(image) %>" alt="Product" class="w-full h-full object-cover" />
+            <% end %>
+          <% else %>
+            <p class="text-gray-500 text-center py-3">No image available</p>
+          <% end %>
+        </div>
+        <!-- Product Details -->
+        <div class="px-4 py-3">
+          <span class="text-gray-400 mr-3 uppercase text-xs">Brand</span>
+          <p class="text-lg font-bold text-black truncate block capitalize"><%= product.name %></p>
+          <div class="flex items-center">
+            <p class="text-lg font-semibold text-black cursor-auto my-3"> <%= number_to_currency(product.price, unit: '₹') %></p>
+
+            <div class="ml-auto">
+              <%= link_to "View Details", product_path(product), class: "text-blue-600 hover:underline" %>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  <% end %>
+</section>

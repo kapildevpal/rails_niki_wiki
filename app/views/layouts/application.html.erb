@@ -12,8 +12,12 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
+
+  <%= render 'home/navbar' %>
+
+  <h1 class="font-bold text-4xl mb-4 text-center">Buy Now</h1>
+  
+       <%= yield %>
     </main>
   </body>
 </html>

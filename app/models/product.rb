@@ -1,6 +1,7 @@
 class Product < ApplicationRecord
   has_many_attached :images
-  
+  # attribute :name, :string
+
   def self.ransackable_associations(auth_object = nil)
     ["image_attachments", "image_blobs"]
   end
